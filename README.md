@@ -1,11 +1,11 @@
-# @buff/llm
+# @cbuff/llm
 
 Type-safe LLM wrapper built on [Vercel AI SDK](https://sdk.vercel.ai/) with provider/model registry and optional cost tracking.
 
 ## Installation
 
 ```bash
-bun add @buff/llm ai
+bun add @cbuff/llm ai
 ```
 
 Install the provider SDKs you need:
@@ -17,7 +17,7 @@ bun add @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google
 ## Usage
 
 ```typescript
-import { createLLM } from "@buff/llm";
+import { createLLM } from "@cbuff/llm";
 import { createOpenAI } from "@ai-sdk/openai";
 
 const llm = createLLM({

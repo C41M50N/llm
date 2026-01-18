@@ -1,5 +1,5 @@
 {
-  "name": "@buff/llm",
+  "name": "@cbuff/llm",
   "version": "1.0.0",
   "author": "Charles Buffington",
   "description": "Type-safe LLM wrapper with provider/model registry and optional cost tracking",

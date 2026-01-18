@@ -33,7 +33,7 @@ const costFormatter = new Intl.NumberFormat("en-US", {
  *
  * @example
  * ```typescript
- * import { createLLM } from "@buff/llm";
+ * import { createLLM } from "@cbuff/llm";
  * import { createOpenAI } from "@ai-sdk/openai";
  *
  * const llm = createLLM({
