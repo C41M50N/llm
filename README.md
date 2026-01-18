@@ -1,4 +1,3 @@
-# @cbuff/llm
 
 Type-safe LLM wrapper built on [Vercel AI SDK](https://sdk.vercel.ai/) with provider/model registry and optional cost tracking.
 
