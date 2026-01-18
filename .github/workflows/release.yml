@@ -25,9 +25,6 @@ jobs:
       - name: Build
         run: bun run build
 
-      - name: Upgrade npm (required for OIDC trusted publishing)
-        run: npm install -g npm@latest
-
       - name: Publish to npm
         run: npm publish --provenance --access public
         env:
