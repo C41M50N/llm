@@ -52,7 +52,7 @@ const costFormatter = new Intl.NumberFormat("en-US", {
  */
 export function createAI<
   TProviders extends Record<string, ProviderFactory>,
-  TModels extends Record<string, ModelEntry<keyof TProviders & string>>
+  TModels extends Record<string, ModelEntry<TProviders>>
 >(config: { providers: TProviders; models: TModels }) {
   // Provider cache: lazily resolved and stored
   const providerCache = new Map<keyof TProviders, LanguageModelProvider>();
@@ -140,7 +140,7 @@ export function createAI<
     }
 
     return {
-      data: (params.output ? result.experimental_output : result.text) as GenerateResponse<TOutput>["data"],
+      data: (params.output ? result.output : result.text) as GenerateResponse<TOutput>["data"],
       metadata: {
         responseTimeMs,
         inputTokens,
@@ -153,4 +153,4 @@ export function createAI<
   return { generate };
 }
 
-export type { AIConfig, LLMConfig } from "./types.js";
+export type { AIConfig } from "./types.js";

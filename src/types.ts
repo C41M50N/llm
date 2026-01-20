@@ -1,4 +1,4 @@
-import type { generateText, LanguageModel, Output, InferGenerateOutput } from "ai";
+import type { generateText, InferGenerateOutput, LanguageModel, Output } from "ai";
 
 // ############################################################################
 // Provider Types
@@ -7,34 +7,47 @@ import type { generateText, LanguageModel, Output, InferGenerateOutput } from "a
 /**
  * A provider instance that can create language models.
  * This is the return type of provider factories like `createOpenAI()`.
+ * @template TModelId - Union of model IDs supported by the provider
  */
-export type LanguageModelProvider = (modelId: string) => LanguageModel;
+export type LanguageModelProvider<TModelId extends string = string> = (
+  modelId: TModelId
+) => LanguageModel;
 
 /**
  * A factory function that creates a provider instance.
  * Can be sync or async (for lazy-loading provider SDKs).
+ * @template TModelId - Union of model IDs supported by the provider
  */
-export type ProviderFactory = () => LanguageModelProvider | Promise<LanguageModelProvider>;
+export type ProviderFactory<TModelId extends string = string> = () =>
+  | LanguageModelProvider<TModelId>
+  | Promise<LanguageModelProvider<TModelId>>;
 
 // ############################################################################
 // Model Types
 // ############################################################################
 
+type ProviderModelId<TProviderFactory extends ProviderFactory> =
+  Awaited<ReturnType<TProviderFactory>> extends LanguageModelProvider<infer TModelId>
+    ? TModelId
+    : string;
+
 /**
  * Configuration for a single model.
- * @template TProviders - Union of available provider keys
+ * @template TProviders - Record of provider factories
  */
-export type ModelEntry<TProviders extends string> = {
-  /** The provider key to use for this model */
-  provider: TProviders;
-  /** The actual model ID to pass to the provider */
-  id: string;
-  /** Optional cost tracking (per 1M tokens in USD) */
-  costs?: {
-    input: number;
-    output: number;
+export type ModelEntry<TProviders extends Record<string, ProviderFactory>> = {
+  [TProviderKey in keyof TProviders & string]: {
+    /** The provider key to use for this model */
+    provider: TProviderKey;
+    /** The actual model ID to pass to the provider */
+    id: ProviderModelId<TProviders[TProviderKey]>;
+    /** Optional cost tracking (per 1M tokens in USD) */
+    costs?: {
+      input: number;
+      output: number;
+    };
   };
-};
+}[keyof TProviders & string];
 
 // ############################################################################
 // Config Types
@@ -47,16 +60,11 @@ export type ModelEntry<TProviders extends string> = {
  */
 export type AIConfig<
   TProviders extends Record<string, ProviderFactory>,
-  TModels extends Record<string, ModelEntry<keyof TProviders & string>>
+  TModels extends Record<string, ModelEntry<TProviders>>
 > = {
   providers: TProviders;
   models: TModels;
 };
-
-export type LLMConfig<
-  TProviders extends Record<string, ProviderFactory>,
-  TModels extends Record<string, ModelEntry<keyof TProviders & string>>
-> = AIConfig<TProviders, TModels>;
 
 // ############################################################################
 // Generate Types

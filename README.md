@@ -73,7 +73,7 @@ const ai = createAI({
   models: {
     [alias: string]: {
       provider: string;  // must match a key in providers
-      id: string;        // actual model ID sent to provider
+      id: string;        // provider model ID (typed per provider)
       costs?: { input: number; output: number };  // USD per 1M tokens
     }
   }
