@@ -1,0 +1,16 @@
+{
+  "name": "example",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^3.0.10",
+    "ai": "^6.0.42"
+  }
+}
