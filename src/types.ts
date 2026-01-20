@@ -41,17 +41,22 @@ export type ModelEntry<TProviders extends string> = {
 // ############################################################################
 
 /**
- * Full configuration object for createLLM.
+ * Full configuration object for createAI.
  * @template TProviders - Record of provider factories
  * @template TModels - Record of model configurations
  */
-export type LLMConfig<
+export type AIConfig<
   TProviders extends Record<string, ProviderFactory>,
   TModels extends Record<string, ModelEntry<keyof TProviders & string>>
 > = {
   providers: TProviders;
   models: TModels;
 };
+
+export type LLMConfig<
+  TProviders extends Record<string, ProviderFactory>,
+  TModels extends Record<string, ModelEntry<keyof TProviders & string>>
+> = AIConfig<TProviders, TModels>;
 
 // ############################################################################
 // Generate Types

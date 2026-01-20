@@ -1,11 +1,11 @@
 {
-  "name": "@cbuff/llm",
+  "name": "@cbuff/ai",
   "version": "1.0.0",
   "author": "Charles Buffington",
   "description": "Type-safe LLM wrapper with provider/model registry and optional cost tracking",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/C41M50N/llm.git"
+    "url": "git+https://github.com/C41M50N/ai.git"
   },
   "type": "module",
   "main": "dist/index.js",

@@ -1,10 +1,9 @@
-
-Type-safe LLM wrapper built on [Vercel AI SDK](https://sdk.vercel.ai/) with provider/model registry and optional cost tracking.
+Type-safe LLM wrapper built on [Vercel AI SDK](https://sdk.vercel.ai/) with provider/model registry, lazy providers, and optional cost tracking.
 
 ## Installation
 
 ```bash
-bun add @cbuff/llm ai
+bun add @cbuff/ai ai
 ```
 
 Install the provider SDKs you need:
@@ -16,10 +15,10 @@ bun add @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google
 ## Usage
 
 ```typescript
-import { createLLM } from "@cbuff/llm";
+import { createAI } from "@cbuff/ai";
 import { createOpenAI } from "@ai-sdk/openai";
 
-const llm = createLLM({
+const ai = createAI({
   providers: {
     openai: () => createOpenAI({ apiKey: process.env.OPENAI_API_KEY }),
     anthropic: async () => {
@@ -35,7 +34,7 @@ const llm = createLLM({
 });
 
 // Full autocomplete on model names
-const { data, metadata } = await llm.generate({
+const { data, metadata } = await ai.generate({
   model: "fast",
   prompt: "Hello, world!",
 });
@@ -49,16 +48,25 @@ console.log(metadata.totalCostUsd); // undefined if costs not configured
 - **Type-safe model selection** — Full autocomplete on model aliases, provider references validated at compile time
 - **Lazy provider loading** — Providers can be sync or async, loaded on first use and cached
 - **Optional cost tracking** — Define `costs: { input, output }` per model (USD per 1M tokens), skip if you don't need it
-- **Unified config** — Single `createLLM()` call with providers and models in one object
+- **Unified config** — Single `createAI()` call with providers and models in one object
+
+## Why not use Vercel's AI SDK directly?
+
+Vercel's SDK is a great foundation, but this wrapper solves the gaps that show up once you use it across multiple models and providers:
+
+- **Model registry with autocomplete** — Define named model aliases once and get compile-time safety everywhere you call `ai.generate`.
+- **Lazy provider wiring** — Configure providers as sync or async factories so you only load SDKs when you actually need them.
+- **Built-in cost tracking** — Attach per-model USD rates and get cost metadata back without extra bookkeeping.
+- **One config surface** — Providers, models, and defaults live together instead of being stitched across call sites.
 
 ## API
 
-### `createLLM(config)`
+### `createAI(config)`
 
-Creates a typed LLM client.
+Creates a typed AI client.
 
 ```typescript
-const llm = createLLM({
+const ai = createAI({
   providers: {
     [key: string]: () => Provider | Promise<Provider>
   },
@@ -72,12 +80,12 @@ const llm = createLLM({
 });
 ```
 
-### `llm.generate(params)`
+### `ai.generate(params)`
 
 Generate text or structured output.
 
 ```typescript
-const { data, metadata } = await llm.generate({
+const { data, metadata } = await ai.generate({
   model: "fast",           // required, autocompletes to your model aliases
   prompt: "Hello",         // required
   system: "Be helpful",    // optional

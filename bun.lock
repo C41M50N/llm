@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "@cbuff/llm",
+      "name": "@cbuff/ai",
       "devDependencies": {
         "@types/bun": "latest",
       },

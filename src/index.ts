@@ -25,18 +25,19 @@ const costFormatter = new Intl.NumberFormat("en-US", {
 });
 
 // ############################################################################
-// createLLM Factory
+// createAI Factory
 // ############################################################################
 
 /**
- * Creates a type-safe LLM client with the given providers and models.
+  * Creates a type-safe AI client with the given providers and models.
+
  *
  * @example
  * ```typescript
- * import { createLLM } from "@cbuff/llm";
+ * import { createAI } from "@cbuff/ai";
  * import { createOpenAI } from "@ai-sdk/openai";
  *
- * const llm = createLLM({
+ * const ai = createAI({
  *   providers: {
  *     openai: () => createOpenAI({ apiKey: process.env.OPENAI_API_KEY }),
  *   },
@@ -46,10 +47,10 @@ const costFormatter = new Intl.NumberFormat("en-US", {
  *   },
  * });
  *
- * const { data } = await llm.generate({ model: "fast", prompt: "Hello" });
+ * const { data } = await ai.generate({ model: "fast", prompt: "Hello" });
  * ```
  */
-export function createLLM<
+export function createAI<
   TProviders extends Record<string, ProviderFactory>,
   TModels extends Record<string, ModelEntry<keyof TProviders & string>>
 >(config: { providers: TProviders; models: TModels }) {
@@ -151,3 +152,5 @@ export function createLLM<
 
   return { generate };
 }
+
+export type { AIConfig, LLMConfig } from "./types.js";
