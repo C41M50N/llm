@@ -1,4 +1,4 @@
-Type-safe LLM wrapper built on [Vercel AI SDK](https://sdk.vercel.ai/) with provider/model registry, lazy providers, and optional cost tracking.
+Type-safe AI client with model registry, lazy providers, and optional cost tracking—powered by [Vercel AI SDK](https://sdk.vercel.ai/)
 
 ## Installation
 
