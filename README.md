@@ -96,6 +96,17 @@ const { data, metadata } = await ai.generate({
 });
 ```
 
+### `ai.models`
+
+Returns the list of registered model aliases in the order they were defined.
+
+```typescript
+ai.models; // ["fast", "smart", "claude"]
+
+type ModelList = typeof ai.models;
+type Model = ModelList[number];
+```
+
 **Returns:**
 
 ```typescript

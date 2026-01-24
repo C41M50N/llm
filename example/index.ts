@@ -7,6 +7,7 @@ const ai = createAI({
   },
   models: {
     "google/gemini-2.5-flash-lite": { provider: "google", id: "gemini-2.5-pro" },
+    "google/gemini-1.5-pro": { provider: "google", id: "gemini-1.5-pro" },
   },
 });
 
@@ -16,6 +17,7 @@ async function main() {
     prompt: "Tell me a joke about programming.",
   });
   console.log(data);
+  ai.models; // ["google/gemini-2.5-flash-lite", "google/gemini-1.5-pro"]
 }
 
 main();

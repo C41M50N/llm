@@ -54,6 +54,10 @@ export function createAI<
   TProviders extends Record<string, ProviderFactory>,
   TModels extends Record<string, ModelEntry<TProviders>>
 >(config: { providers: TProviders; models: TModels }) {
+  const models = Object.freeze(
+    Object.keys(config.models) as Array<keyof TModels & string>
+  ) as ReadonlyArray<keyof TModels & string>;
+
   // Provider cache: lazily resolved and stored
   const providerCache = new Map<keyof TProviders, LanguageModelProvider>();
 
@@ -150,7 +154,7 @@ export function createAI<
     };
   }
 
-  return { generate };
+  return { generate, models };
 }
 
 export type { AIConfig } from "./types.js";
